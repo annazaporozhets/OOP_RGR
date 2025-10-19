@@ -1,0 +1,36 @@
+package zoo.models;
+
+// АБСТРАКЦІЯ
+// Абстрактний клас визначає загальний "контракт", але не може бути інстанційований
+public abstract class Animal {
+
+    // ІНКАПСУЛЯЦІЯ
+    // Поля приховані (private), доступ до них - лише через публічні методи (get/set)
+    private String name;
+    private int age;
+
+    public Animal(String name, int age) {
+        this.name = name;
+        setAge(age);
+    }
+
+    // ПОЛІМОРФІЗМ
+    // Абстрактний метод, який кожен клас-нащадок ПОВИНЕН реалізувати по-своєму
+    public abstract void makeSound();
+
+    // --- Публічний інтерфейс для доступу до інкапсульованих даних ---
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Вік не може бути від'ємним.");
+        }
+        this.age = age;
+    }
+}
