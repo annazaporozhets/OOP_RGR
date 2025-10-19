@@ -1,0 +1,18 @@
+package zoo.patterns;
+
+import zoo.models.*;
+
+// ШАБЛОН FACTORY METHOD
+// Клас, який інкапсулює логіку створення об'єктів різних типів тварин
+public class AnimalFactory {
+    public Animal createAnimal(String type, String name, int age) {
+        // Логіка вибору конкретного класу прихована від клієнта
+        if ("lion".equalsIgnoreCase(type)) {
+            return new Lion(name, age);
+        } else if ("eagle".equalsIgnoreCase(type)) {
+            return new Eagle(name, age);
+        }
+        // Якщо тип невідомий, генеруємо стандартне виключення
+        throw new IllegalArgumentException("Невідомий тип тварини: '" + type + "'");
+    }
+}
