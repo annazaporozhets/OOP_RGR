@@ -1,0 +1,32 @@
+package zoo.services;
+
+import zoo.exceptions.EnclosureFullException;
+import zoo.models.Animal;
+import zoo.patterns.AnimalFactory;
+import zoo.patterns.Enclosure;
+import zoo.patterns.Zoo;
+
+// GRASP: CONTROLLER
+// Клас-посередник, який приймає запити від "зовнішнього світу" (в нашому випадку - main)
+// і делегує виконання відповідним об'єктам моделі (Zoo, Enclosure).
+public class ZooController {
+    private final Zoo zoo = Zoo.getInstance();
+    private final AnimalFactory factory = new AnimalFactory();
+
+    public void addAnimalToEnclosure(String type, String name, int age, int enclosureIndex) {
+        try {
+            Enclosure enclosure = zoo.getEnclosure(enclosureIndex);
+            if (enclosure == null) {
+                System.err.println("ПОМИЛКА: Вольєра з індексом " + enclosureIndex + " не існує.");
+                return;
+            }
+            // Делегування створення об'єкта Фабриці
+            Animal animal = factory.createAnimal(type, name, age);
+            // Делегування додавання тварини Вольєру
+            enclosure.addAnimal(animal);
+        } catch (IllegalArgumentException | EnclosureFullException e) {
+            // Обробка можливих помилок від моделі
+            System.err.println("ПОМИЛКА: " + e.getMessage());
+        }
+    }
+}
