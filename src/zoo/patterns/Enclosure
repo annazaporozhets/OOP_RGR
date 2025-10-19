@@ -1,0 +1,51 @@
+package zoo.patterns;
+
+import zoo.exceptions.EnclosureFullException;
+import zoo.models.Animal;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Enclosure {
+    private final int capacity;
+    private final String biome;
+    private final List<Animal> animals = new ArrayList<>();
+
+    // Конструктор приватний, щоб змусити використовувати Builder
+    private Enclosure(Builder builder) {
+        this.capacity = builder.capacity;
+        this.biome = builder.biome;
+    }
+
+    // GRASP: INFORMATION EXPERT
+    // Цей клас має всю інформацію для додавання тварини (місткість, список тварин),
+    // тому він сам і відповідає за цю операцію.
+    public void addAnimal(Animal animal) throws EnclosureFullException {
+        if (animals.size() >= capacity) {
+            throw new EnclosureFullException("Вольєр (біом: " + biome + ") переповнений!");
+        }
+        animals.add(animal);
+        System.out.println("-> " + animal.getName() + " додано до вольєра '" + this.biome + "'.");
+    }
+
+    // ШАБЛОН BUILDER
+    // Вкладений клас, який дозволяє конструювати об'єкт Enclosure крок за кроком
+    public static class Builder {
+        private final int capacity; // Обов'язковий параметр
+        private String biome = "Невизначений"; // Опціональний параметр зі значенням за замовчуванням
+
+        public Builder(int capacity) {
+            this.capacity = capacity;
+        }
+
+        // Методи повертають 'this', що дозволяє створювати ланцюжки викликів
+        public Builder withBiome(String biome) {
+            this.biome = biome;
+            return this;
+        }
+
+        // Фінальний метод, який повертає готовий сконструйований об'єкт
+        public Enclosure build() {
+            return new Enclosure(this);
+        }
+    }
+}
