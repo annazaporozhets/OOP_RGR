@@ -1,0 +1,58 @@
+package zoo; 
+
+import zoo.services.ZooController;
+import zoo.patterns.Zoo; 
+import zoo.models.Animal; 
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- Система керування зоопарком запущена ---");
+        ZooController controller = new ZooController();
+
+        // Демонстрація шаблону Builder: створюємо вольєри зі складною конфігурацією
+        System.out.println("\n[Етап 1: Створення вольєрів]");
+        controller.createEnclosure(2, "Савана"); // Створюємо вольєр для левів з індексом 0
+        controller.createEnclosure(3, "Гори");   // Створюємо вольєр для орлів з індексом 1
+
+        // Демонстрація шаблону Factory Method: додаємо тварин, не знаючи їхніх конкретних класів
+        System.out.println("\n[Етап 2: Заселення тварин]");
+        controller.addAnimalToEnclosure("lion", "Сімба", 5, 0);
+        controller.addAnimalToEnclosure("lion", "Нала", 4, 0);
+        controller.addAnimalToEnclosure("eagle", "Арго", 3, 1);
+        
+        // Демонстрація власного виключення (EnclosureFullException)
+        System.out.println("\n[Етап 3: Тестування виняткових ситуацій]");
+        System.out.println("-> Спроба додати тварину в переповнений вольєр...");
+        controller.addAnimalToEnclosure("lion", "Шрам", 10, 0); // Цей виклик має спричинити помилку
+
+        // Демонстрація стандартного виключення (IllegalArgumentException)
+        System.out.println("\n-> Спроба створити неіснуючий вид тварини...");
+        controller.addAnimalToEnclosure("bear", "Балу", 8, 1); // Цей виклик теж спричинить помилку
+
+        // Демонстрація Поліморфізму
+        System.out.println("\n[Етап 4: Перевірка поведінки тварин (Поліморфізм)]");
+        // Хоча ця логіка не є в Main, ми можемо її тут зімітувати для демонстрації
+        List<Animal> allAnimals = new ArrayList<>();
+        allAnimals.add(controller.getAnimalFromEnclosure(0, 0)); // Отримуємо Сімбу
+        allAnimals.add(controller.getAnimalFromEnclosure(1, 0)); // Отримуємо Арго
+        
+        for (Animal animal : allAnimals) {
+            if(animal != null) {
+                animal.makeSound(); // Кожен об'єкт викликає свою версію методу
+            }
+        }
+        
+        // 6. Демонстрація Singleton
+        System.out.println("\n[Етап 5: Перевірка шаблону Singleton]");
+        Zoo zoo1 = Zoo.getInstance();
+        Zoo zoo2 = Zoo.getInstance();
+        
+        if (zoo1 == zoo2) {
+            System.out.println("-> Успіх! Обидві змінні посилаються на один і той самий об'єкт зоопарку.");
+        } else {
+            System.out.println("-> Помилка! Шаблон Singleton реалізовано неправильно.");
+        }
+    }
+}
