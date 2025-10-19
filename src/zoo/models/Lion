@@ -1,0 +1,17 @@
+package zoo.models;
+
+// НАСЛІДУВАННЯ
+// Lion успадковує всі властивості та методи від Mammal (і від Animal)
+public class Lion extends Mammal {
+
+    public Lion(String name, int age) {
+        super(name, age);
+    }
+
+    // ПОЛІМОРФІЗМ
+    // Перевизначення (override) методу makeSound() для надання унікальної поведінки
+    @Override
+    public void makeSound() {
+        System.out.println(getName() + " (лев) каже: Гар-р-р!");
+    }
+}
