@@ -6,7 +6,7 @@ import zoo.models.Animal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
         System.out.println("--- Система керування зоопарком запущена ---");
         ZooController controller = new ZooController();
@@ -33,7 +33,7 @@ public class Main {
 
         // Демонстрація Поліморфізму
         System.out.println("\n[Етап 4: Перевірка поведінки тварин (Поліморфізм)]");
-        // Хоча ця логіка не є в Main, ми можемо її тут зімітувати для демонстрації
+        // Хоча ця логіка не є в main, ми можемо її тут зімітувати для демонстрації
         List<Animal> allAnimals = new ArrayList<>();
         allAnimals.add(controller.getAnimalFromEnclosure(0, 0)); // Отримуємо Сімбу
         allAnimals.add(controller.getAnimalFromEnclosure(1, 0)); // Отримуємо Арго
